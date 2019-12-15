@@ -1,0 +1,134 @@
+#include<iostream>
+#include<string>
+#include<iomanip>
+#include<stdio.h>
+using namespace std;
+class nv
+{
+	protected:
+		string maso,hoten,chucvu;
+	public:
+	    void nhap()
+	    {
+	        cout<<"nhap ho ten: ";
+			cin>>hoten;
+			cout<<"nhap ma so: ";
+			cin>>maso;
+			cout<<"nhap chuc vu: ";
+			cin>>chucvu;
+	    }
+	    void xuat()
+	    {
+	        cout<<hoten<<setw(20);
+	    }
+
+};
+class bienche: public nv
+{
+	private:
+		int hsl;
+	public:
+		friend istream &operator >> (istream &is,bienche &a)
+		{
+		    a.nv::nhap();
+			fflush(stdin);
+			cout<<"nhap hsl: ";
+			is>>a.hsl;
+			return is;
+		}
+		friend ostream &operator << (ostream &os,bienche &a)
+		{
+			a.nv::xuat();
+			os<<a.hsl<<setw(20)<<a.tinhluong();
+			return os;
+		}
+		 long long tinhluong()
+		{
+			int pc=0;
+			long long tl;
+			if (chucvu.find("giam doc",0)) pc=150000;
+			else if (chucvu.find("pho giam doc",0)) pc=100000;
+			tl=hsl*830000 + pc;
+			return (tl - 0.05*tl);
+		}
+
+};
+class hopdong: public nv
+{
+	private:
+		int songayl;
+	public:
+		friend istream &operator >> (istream &is,hopdong &a)
+		{
+			a.nv::nhap();
+			fflush(stdin);
+			cout<<"nhap so ngay lam: ";
+			is>>a.songayl;
+			return is;
+		}
+		friend ostream &operator << (ostream &os,hopdong &a)
+		{
+		    a.nv::xuat();
+			os<<a.songayl<<setw(20)<<a.tinhluong1();
+			return os;
+		}
+        long long tinhluong1()
+		{
+			int s=songayl - 26;
+			long long tl;
+			if (s>=0) tl=1500000 + s*100000;
+			else tl=1500000 - s*50000;
+			return (tl - 0.05*tl);
+		}
+};
+class quanli
+{
+	int nbc,nhd;
+	bienche* a;
+	hopdong* b;
+	nv *c;
+	public:
+		void nhap()
+		{
+		    // nhap nhan vien vien chuc
+			cout<<"nhap sl bc: ";
+			cin>>nbc;
+			a = new bienche[nbc];
+			for (int i=0;i<nbc;i++)
+			cin>>a[0];
+
+			//nhap mhan vien hd
+            cout<<"nhap sl hd: ";
+			cin>>nhd;
+			b = new hopdong[nhd];
+			for (int i=0;i<nhd;i++)
+			cin>>b[i];
+		}
+
+		void inbang()
+		{
+		    // xuat BANG LUONG BIEN CHUC
+			cout<<"BANG LUONG BIEN CHUC"<<endl;
+			cout<<"STT"<<setw(15)<<"HOTEN"<<setw(20)<<"he so luong"<<setw(20)<<"tien luong"<<endl;
+			for (int i=0;i<nbc;i++)
+			{
+				cout<<i+1<<setw(15)<<a[i]<<endl;
+			}
+
+			// xuat BANG LUONG HOP DONG
+			cout<<"BANG LUONG HOP DONG"<<endl;
+			cout<<"STT"<<setw(15)<<"HOTEN"<<setw(20)<<"so ngay lam"<<setw(20)<<"tien luong"<<endl;
+			for (int i=0;i<nhd;i++)
+			{
+				cout<<i+1<<setw(15)<<b[i]<<endl;
+			}
+		}
+
+};
+int main()
+{
+	quanli ql;
+	ql.nhap();
+	ql.inbang();
+	return 0;
+}
