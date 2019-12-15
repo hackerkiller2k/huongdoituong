@@ -83,10 +83,10 @@ class hopdong: public nv
 };
 class quanli
 {
+	private:
 	int nbc,nhd;
 	bienche* a;
 	hopdong* b;
-	nv *c;
 	public:
 		void nhap()
 		{
